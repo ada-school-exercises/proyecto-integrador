@@ -31,19 +31,19 @@ public class ReservaController {
     }
 
     @GetMapping("/{idReserva}")
-    public ResponseEntity<Reserva> buscarReserva(@PathVariable Long idReserva) {
+    public ResponseEntity<Reserva> buscarReserva(@PathVariable String idReserva) {
         Reserva reserva = reservaService.buscarReservaPorId(idReserva);
         return new ResponseEntity<>(reserva, HttpStatus.OK);
     }
 
     @PutMapping("/{idReserva}")
-    public ResponseEntity<Reserva> modificarReserva(@PathVariable Long idReserva, @RequestBody Reserva reserva) {
+    public ResponseEntity<Reserva> modificarReserva(@PathVariable String idReserva, @RequestBody Reserva reserva) {
         Reserva reservaModificada = reservaService.modificarReserva(idReserva, reserva);
         return new ResponseEntity<>(reservaModificada, HttpStatus.OK);
     }
 
     @DeleteMapping("/{idReserva}")
-    public ResponseEntity<Void> eliminarReserva(@PathVariable Long idReserva) {
+    public ResponseEntity<Void> eliminarReserva(@PathVariable String idReserva) {
         reservaService.eliminarReserva(idReserva);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

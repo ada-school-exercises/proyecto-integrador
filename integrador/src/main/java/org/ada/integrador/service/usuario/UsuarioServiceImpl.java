@@ -1,46 +1,50 @@
 package org.ada.integrador.service.usuario;
 
 import org.ada.integrador.bo.Usuario;
+import org.ada.integrador.repository.UsuarioRepositoryMongo;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 @Service
 public class UsuarioServiceImpl implements UsuarioService {
-    private final HashMap<Long, Usuario> usuarios = new HashMap<>();
-    private Long id = 0L;
 
-    @Override
-    public Usuario crearUsuario(Usuario usuario) {
-        usuario.setIdUsuario(id++);
-        usuarios.put(usuario.getIdUsuario(), usuario);
-        return usuario;
+    private final UsuarioRepositoryMongo usuarioRepositoryMongo;
+
+    public UsuarioServiceImpl(UsuarioRepositoryMongo usuarioRepositoryMongo) {
+        this.usuarioRepositoryMongo = usuarioRepositoryMongo;
     }
 
     @Override
-    public Usuario buscarUsuarioPorId(Long idUsuario) {
-        return usuarios.get(idUsuario);
+    public Usuario crearUsuario(Usuario usuario) {
+        return usuarioRepositoryMongo.save(usuario);
+    }
+
+    @Override
+    public Usuario buscarUsuarioPorId(String idUsuario) {
+        return usuarioRepositoryMongo.findById(idUsuario)
+                .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
     }
 
     @Override
     public List<Usuario> listarUsuarios() {
-        return new ArrayList<>(usuarios.values());
+        return usuarioRepositoryMongo.findAll();
     }
 
     @Override
-    public Usuario modificarUsuario(Long idUsuario, Usuario usuario) {
-        if(usuarios.containsKey(idUsuario)) {
-            usuario.setIdUsuario(idUsuario);
-            usuarios.put(idUsuario, usuario);
-            return usuario;
-        }
-        throw new IllegalArgumentException("No existe un usuario con ese id");
+    public Usuario modificarUsuario(String idUsuario, Usuario usuario) {
+        Usuario usuarioEncontrado = usuarioRepositoryMongo.findById(idUsuario)
+                .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
+        usuarioEncontrado.setNombre(usuario.getNombre());
+        usuarioEncontrado.setApellido(usuario.getApellido());
+        usuarioEncontrado.setUsuario(usuario.getUsuario());
+        usuarioEncontrado.setCorreo(usuario.getCorreo());
+        return usuarioRepositoryMongo.save(usuarioEncontrado);
     }
 
     @Override
-    public void eliminarUsuario(Long idUsuario) {
-        usuarios.remove(idUsuario);
+    public void eliminarUsuario(String idUsuario) {
+        usuarioRepositoryMongo.deleteById(idUsuario);
     }
 }

@@ -1,10 +1,16 @@
 package org.ada.integrador.bo;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+@Document(collection = "reservas")
 public class Reserva {
-    private Long idReserva;
+
+    @Id
+    private String idReserva;
     private LocalDateTime fechaReserva;
     private LocalDateTime fechaDevolucion;
     private Long idUsuario;
@@ -13,18 +19,18 @@ public class Reserva {
     }
 
 
-    public Reserva(Long idReserva, LocalDateTime fechaReserva, LocalDateTime fechaDevolucion, Long idUsuario) {
+    public Reserva(String idReserva, LocalDateTime fechaReserva, LocalDateTime fechaDevolucion, Long idUsuario) {
         this.idReserva = idReserva;
         this.fechaReserva = fechaReserva;
         this.fechaDevolucion = fechaDevolucion;
         this.idUsuario = idUsuario;
     }
 
-    public Long getIdReserva() {
+    public String getIdReserva() {
         return idReserva;
     }
 
-    public void setIdReserva(Long idReserva) {
+    public void setIdReserva(String idReserva) {
         this.idReserva = idReserva;
     }
 

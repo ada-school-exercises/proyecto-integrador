@@ -6,8 +6,8 @@ import java.util.List;
 
 public interface ReservaService {
     Reserva crearReserva(Reserva reserva);
-    Reserva buscarReservaPorId(Long idReserva);
+    Reserva buscarReservaPorId(String idReserva);
     List<Reserva> listarReservas();
-    Reserva modificarReserva(Long idReserva, Reserva reserva);
-    void eliminarReserva(Long idReserva);
+    Reserva modificarReserva(String idReserva, Reserva reserva);
+    void eliminarReserva(String idReserva);
 }

@@ -31,19 +31,19 @@ public class UsuarioController {
     }
 
     @GetMapping("/{idUsuario}")
-    public ResponseEntity<Usuario> buscarUsuarioPorId(@PathVariable Long idUsuario) {
+    public ResponseEntity<Usuario> buscarUsuarioPorId(@PathVariable String idUsuario) {
         Usuario usuario = usuarioService.buscarUsuarioPorId(idUsuario);
         return new ResponseEntity<>(usuario, HttpStatus.OK);
     }
 
     @PutMapping("/{idUsuario}")
-    public ResponseEntity<Usuario> actualizarUsuario(@PathVariable Long idUsuario, @RequestBody Usuario usuario) {
+    public ResponseEntity<Usuario> actualizarUsuario(@PathVariable String idUsuario, @RequestBody Usuario usuario) {
         Usuario usuarioActualizado = usuarioService.modificarUsuario(idUsuario, usuario);
         return new ResponseEntity<>(usuarioActualizado, HttpStatus.OK);
     }
 
     @DeleteMapping("/{idUsuario}")
-    public ResponseEntity<Void> eliminarUsuario(@PathVariable Long idUsuario) {
+    public ResponseEntity<Void> eliminarUsuario(@PathVariable String idUsuario) {
         usuarioService.eliminarUsuario(idUsuario);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

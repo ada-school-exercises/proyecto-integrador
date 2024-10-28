@@ -1,6 +1,7 @@
 package org.ada.integrador.service.reserva;
 
 import org.ada.integrador.bo.Reserva;
+import org.ada.integrador.repository.ReservaRepositoryMongo;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -10,38 +11,40 @@ import java.util.List;
 @Service
 public class ReservaServiceImpl implements ReservaService {
 
-    private final HashMap<Long, Reserva> reservas = new HashMap<>();
-    private Long id = 0L;
+    private final ReservaRepositoryMongo reservaRepositoryMongo;
 
-    @Override
-    public Reserva crearReserva(Reserva reserva) {
-        reserva.setIdReserva(id++);
-        reservas.put(reserva.getIdReserva(), reserva);
-        return reserva;
+    public ReservaServiceImpl(ReservaRepositoryMongo reservaRepositoryMongo) {
+        this.reservaRepositoryMongo = reservaRepositoryMongo;
     }
 
     @Override
-    public Reserva buscarReservaPorId(Long idReserva) {
-        return reservas.get(idReserva);
+    public Reserva crearReserva(Reserva reserva) {
+        return reservaRepositoryMongo.save(reserva);
+    }
+
+    @Override
+    public Reserva buscarReservaPorId(String idReserva) {
+        return reservaRepositoryMongo.findById(idReserva)
+                .orElseThrow(() -> new IllegalArgumentException("Reserva no encontrada"));
     }
 
     @Override
     public List<Reserva> listarReservas() {
-        return new ArrayList<>(reservas.values());
+        return reservaRepositoryMongo.findAll();
     }
 
     @Override
-    public Reserva modificarReserva(Long idReserva, Reserva reserva) {
-        if(reservas.containsKey(idReserva)){
-            reserva.setIdReserva(idReserva);
-            reservas.put(reserva.getIdReserva(), reserva);
-            return reserva;
-        }
-        throw new IllegalArgumentException("Reserva no encontrada con el id " + idReserva);
+    public Reserva modificarReserva(String idReserva, Reserva reserva) {
+        Reserva reservaEncontrada = reservaRepositoryMongo.findById(idReserva)
+                .orElseThrow(() -> new IllegalArgumentException("Reserva no encontrada"));
+        reservaEncontrada.setFechaReserva(reserva.getFechaReserva());
+        reservaEncontrada.setFechaDevolucion(reserva.getFechaDevolucion());
+        reservaEncontrada.setIdUsuario(reserva.getIdUsuario());
+        return reservaRepositoryMongo.save(reservaEncontrada);
     }
 
     @Override
-    public void eliminarReserva(Long idReserva) {
-        reservas.remove(idReserva);
+    public void eliminarReserva(String idReserva) {
+        reservaRepositoryMongo.deleteById(idReserva);
     }
 }

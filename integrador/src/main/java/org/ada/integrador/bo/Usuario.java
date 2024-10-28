@@ -1,9 +1,15 @@
 package org.ada.integrador.bo;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.util.Objects;
 
+@Document(collection = "usuarios")
 public class Usuario {
-    private Long idUsuario;
+
+    @Id
+    private String idUsuario;
     private String nombre;
     private String apellido;
     private String correo;
@@ -13,7 +19,7 @@ public class Usuario {
     public Usuario() {
     }
 
-    public Usuario(Long idUsuario, String nombre, String apellido, String correo, String usuario, String contrasena) {
+    public Usuario(String idUsuario, String nombre, String apellido, String correo, String usuario, String contrasena) {
         this.idUsuario = idUsuario;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -22,11 +28,11 @@ public class Usuario {
         this.contrasena = contrasena;
     }
 
-    public Long getIdUsuario() {
+    public String getIdUsuario() {
         return idUsuario;
     }
 
-    public void setIdUsuario(Long idUsuario) {
+    public void setIdUsuario(String idUsuario) {
         this.idUsuario = idUsuario;
     }
 
