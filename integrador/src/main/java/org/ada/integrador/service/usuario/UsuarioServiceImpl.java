@@ -2,6 +2,7 @@ package org.ada.integrador.service.usuario;
 
 import org.ada.integrador.bo.Usuario;
 import org.ada.integrador.repository.UsuarioRepositoryMongo;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -12,12 +13,15 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     private final UsuarioRepositoryMongo usuarioRepositoryMongo;
 
+    private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
     public UsuarioServiceImpl(UsuarioRepositoryMongo usuarioRepositoryMongo) {
         this.usuarioRepositoryMongo = usuarioRepositoryMongo;
     }
 
     @Override
     public Usuario crearUsuario(Usuario usuario) {
+        usuario.setContrasena(passwordEncoder.encode(usuario.getContrasena()));
         return usuarioRepositoryMongo.save(usuario);
     }
 
