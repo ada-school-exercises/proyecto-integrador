@@ -1,7 +1,7 @@
 FROM khipu/openjdk21-alpine
 VOLUME /tmp
 ARG JAR_FILE
-ADD "target/stackoverflow-0.0.1-SNAPSHOT.jar" app.jar
+ADD "target/integrador-0.0.1-SNAPSHOT.jar" app.jar
 ENV JAVA_OPTS=""
 RUN apk add --update tzdata
 ENV TZ=America/Guatemala
