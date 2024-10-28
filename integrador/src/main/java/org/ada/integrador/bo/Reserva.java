@@ -13,13 +13,13 @@ public class Reserva {
     private String idReserva;
     private LocalDateTime fechaReserva;
     private LocalDateTime fechaDevolucion;
-    private Long idUsuario;
+    private String idUsuario;
 
     public Reserva() {
     }
 
 
-    public Reserva(String idReserva, LocalDateTime fechaReserva, LocalDateTime fechaDevolucion, Long idUsuario) {
+    public Reserva(String idReserva, LocalDateTime fechaReserva, LocalDateTime fechaDevolucion, String idUsuario) {
         this.idReserva = idReserva;
         this.fechaReserva = fechaReserva;
         this.fechaDevolucion = fechaDevolucion;
@@ -50,11 +50,11 @@ public class Reserva {
         this.fechaDevolucion = fechaDevolucion;
     }
 
-    public Long getIdUsuario() {
+    public String getIdUsuario() {
         return idUsuario;
     }
 
-    public void setIdUsuario(Long idUsuario) {
+    public void setIdUsuario(String idUsuario) {
         this.idUsuario = idUsuario;
     }
 
